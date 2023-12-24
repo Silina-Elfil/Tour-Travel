@@ -29,22 +29,19 @@
                 <div class="navbar-nav">
 
                     <button type="button" class="btn btn-primary" style="border-radius: 20px;" data-bs-toggle="modal" data-bs-target="#signup">
-                        Sign Up
+                        <a href="signup.php" style="text-decoration: none; color: white;">Sign Up</a>
                     </button>
 
                     <span style="margin-right: 10px;"></span>
 
                     <button type="button" class="btn btn-primary" style="border-radius: 20px;" data-bs-toggle="modal" data-bs-target="#signin">
-                        Sign In
+                    <a href="signin.php" style="text-decoration: none; color: white;">Sign In</a>
                     </button>
 
                 </div>
             </div>
         </div>
     </nav>
-
-    <?php include("signup.php");?>
-    <?php include("signin.php");?>
 
     <div id="carouselExampleCaptions" class="carousel slide">
         <div class="carousel-indicators">

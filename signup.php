@@ -13,25 +13,38 @@
 
 <body>
 
-    <!-- Modal Sign Up -->
-    <div class="modal fade" id="signup" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Create an Account</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
+    <section class="Form">
+        <div class="container">
+            <div class="row g-0">
+                <div class="col-lg-7 px-md-5 py-md-5">
+
+                    <h1 class="font-weight-bold py-3 brand">
+                        <img src="images/logo.png" style="width: 30px; margin-right: 10px">
+                        Tour&Travel
+                    </h1>
+                    <h5>CREATE AN ACCOUNT</h5>
+
                     <form method="POST" action="signupaction.php" onsubmit="return isValid()">
+                        <div class="mt-5"></div>
                         <div class="form-row">
                             <div class="col-lg-10">
-                            <div id="signupError" class="text-danger"></div>
                                 <?php
-                                // Display error message if unavailable
-                                // session_start();
-                                // if (isset($_SESSION["ERROR_Reg"])) {
-                                //     echo '<div class="alert alert-danger" role="alert"> ' . $_SESSION["ERROR_Reg"] . ' </div>';
-                                // }
+                                session_start();
+                                if (isset($_SESSION['loginFailed'])) {
+                                    echo '<div class="alert alert-danger" role="alert">Passwords do not match</div>';
+                                    unset($_SESSION['loginFailed']);
+                                }
+                                ?>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-lg-10">
+                                <?php
+                                if (isset($_SESSION['usernameAvailable']) && isset($_SESSION['emailAvailable'])) {
+                                    echo '<div class="alert alert-danger" role="alert">Username or Email already exist</div>';
+                                    unset($_SESSION['usernameAvailable']);
+                                    unset($_SESSION['emailAvailable']);
+                                }
                                 ?>
                             </div>
                         </div>
@@ -39,66 +52,46 @@
                             <div class="col-lg-10">
                                 <input type="email" class="form-control p-3" placeholder="ENTER YOUR EMAIL" name="email" id="email" oninput="removeErrorClass('email')">
                                 <div id="emailError" class="text-danger" style="float: right;"></div>
-                                <div class="my-3"></div>
+                                <div class="my-2"></div>
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="col-lg-10">
                                 <input type="text" class="form-control p-3" placeholder="ENTER YOUR USERNAME" name="username" id="username" oninput="removeErrorClass('username')">
                                 <div id="usernameError" class="text-danger" style="float: right;"></div>
-                                <div class="my-3"></div>
+                                <div class="my-2"></div>
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="col-lg-10">
                                 <input type="password" class="form-control p-3" placeholder="ENTER YOUR PASSWORD" name="password" id="password" oninput="removeErrorClass('password')">
                                 <div id="passwordError" class="text-danger" style="float: right;"></div>
-                                <div class="my-3"></div>
+                                <div class="my-2"></div>
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="col-lg-10">
                                 <input type="password" class="form-control p-3" placeholder="VERIFY YOUR PASSWORD" name="v-password" id="v-password" oninput="removeErrorClass('v-password')">
                                 <div id="v-passwordError" class="text-danger" style="float: right;"></div>
-                                <div class="my-3"></div>
+                                <div class="my-2"></div>
                             </div>
                         </div>
-                        <div class="form-row mt-3">
+                        <div class="form-row">
                             <div class="col-lg-10">
-                                <p>Already a member?
-                                    <button type="button" class="btn" style="border-radius: 20px; border-color:none; border: 0px; color:royalblue" data-bs-toggle="modal" data-bs-target="#signin">
-                                        Sign in to your account
-                                    </button>
-                                </p>
-                                
+                                <input type="submit" class="btn1 mt-2 mb-4" value="CREATE ACCOUNT" name="signup" />
                             </div>
                         </div>
-
-
+                    </form>
+                    <p>Already a member? <a href="signin.php">Sign In to your account</a></p>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <input type="submit" class="btn btn-primary" value="CREATE ACCOUNT" name="signup" />
+                <div class="col-lg-5 d-flex align-items-center justify-content-center">
+                    <img src="images/siginup.jpg" class="img-fluid" style="max-height: 100%; max-width: 100%;">
                 </div>
-                </form>
+
             </div>
         </div>
-        <script>
-        // Check if there was a signup failure
-        $(document).ready(function () {
-            <?php
-            if (isset($_SESSION["error_reg"])) {
-                // Output JavaScript code to open the modal
-                echo '$("#signup").modal("show");';
-                // Display the error message
-                echo '$("#signupError").html("'.$_SESSION["error_reg"].'");';
-                // Clear the session variable
-                unset($_SESSION["error_reg"]);
-            }
-            ?>
-        });
-    </script>
-    </div>
+    </section>
+
 
     <script>
         function isValid() {
@@ -165,6 +158,23 @@
     </script>
 
     <style>
+        .btn1 {
+            border: none;
+            outline: none;
+            background-color: #2b73ef;
+            height: 50px;
+            width: 100%;
+            border-radius: 5px;
+            color: white;
+            font-weight: bold;
+        }
+
+        .btn1:hover {
+            background-color: whitesmoke;
+            color: #2b73ef;
+            border: 1px solid;
+        }
+
         .is-invalid {
             border-color: #dc3545;
         }
