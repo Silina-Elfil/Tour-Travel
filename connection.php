@@ -2,7 +2,7 @@
 define("SERVER_NAME", "localhost");
 define("USERNAME", "root");
 define("PASSWORD","");
-define("DATABASE","tour&travel");
+define("DATABASE","Tour&Travel");
 
 $con = mysqli_connect(SERVER_NAME, USERNAME, PASSWORD, DATABASE);
 
