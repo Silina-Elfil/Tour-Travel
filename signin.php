@@ -29,9 +29,8 @@
                                 <?php
                                 session_start();
                                 // Display error message if login fails
-                                if (isset($_SESSION['loginFailed'])) {
-                                    echo '<div class="alert alert-danger" role="alert">Invalid username or password</div>';
-                                    unset($_SESSION['loginFailed']);
+                                if (isset($_SESSION["error"])) {
+                                    echo '<div class="alert alert-danger" role="alert">' .$_SESSION["error"]. '</div>';
                                 }
                                 ?>
                             </div>

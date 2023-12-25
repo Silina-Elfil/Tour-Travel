@@ -1,44 +1,44 @@
 <?php
-    include("connection.php");
 
-    session_start(); // Start the session
-    
-    if (isset($_POST['signin'])) {
-        $username = $_POST['username'];
-        $password = $_POST['password'];
-    
-        // Select the hashed password from the database based on the provided username
-        $query = "SELECT password FROM users WHERE username = '$username'";
-        $result = mysqli_query($con, $query);
-    
-        if (!$result) {
-            die("Query failed: " . mysqli_error($con));
+session_start(); // Start the session
+require("connection.php");
+
+// if (isset($_POST['signin'])) {
+$username = mysqli_real_escape_string($con, $_POST['username']);
+$password = mysqli_real_escape_string($con, $_POST['password']);
+
+// Select the hashed password from the database based on the provided username
+$query = "SELECT * FROM users WHERE username = '$username'";
+$result = mysqli_query($con, $query);
+
+if (!$result) {
+    die("Query failed: " . mysqli_error($con));
+}
+
+// Check if a user with the given username exists
+if (mysqli_num_rows($result) == 0) {
+    $_SESSION["error"] = "Invalid username";
+    header("Location: signin.php");
+} else {
+    $row = mysqli_fetch_array($result);
+
+    //unhash password
+    $pass = password_verify($password, $row['password']);
+
+    if ($pass) {
+        if ($row['roleId'] == 1) {
+            $_SESSION["signin_admin"] = 1;
+            $_SESSION["username_admin"] = $username;
+            $_SESSION["userid_admin"] = $row["id"];
+            header("Location: admin\index.php");
+        } else {
+            $_SESSION["signin"] = 1;
+            $_SESSION["username"] = $username;
+            $_SESSION["userid"] = $row["Id"];
+            header("Location: home.php");
         }
-    
-        // Check if a user with the given username exists
-        if (mysqli_num_rows($result) == 1) {
-            $row = mysqli_fetch_assoc($result);
-            $hashed_pass_from_db = $row['password'];
-    
-            // Use password_verify to check if the entered password matches the hashed password
-            if (password_verify($password, $hashed_pass_from_db)) {
-                // Password is correct
-                // Redirect to the home page or perform other actions
-                $_SESSION['username'] = $username; // Set a session variable if needed
-                header("Location: home.php");
-                exit();
-            }
-        }
-    
-        // If execution reaches here, it means the login failed
-        $_SESSION['loginFailed'] = true; // Set the session variable when login fails
+    } else {
+        $_SESSION["error"] = "Invalid Password";
         header("Location: signin.php");
-        exit();
     }
-
-    // Check if the session variable is set
-    $loginFailed = isset($_SESSION['loginFailed']) && $_SESSION['loginFailed'];
-
-    // Unset the session variable to remove the message after displaying it
-    unset($_SESSION['loginFailed']);
-    ?>
+}

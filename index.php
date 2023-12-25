@@ -51,24 +51,27 @@
         </div>
         <div class="carousel-inner">
             <div class="carousel-item active">
-                <img src="images/istanbul.jpg" class="d-block w-100" alt="...">
-                <div class="carousel-caption d-none d-md-block">
-                    <h5>First slide label</h5>
-                    <p>Some representative placeholder content for the first slide.</p>
+                <img src="images/istanbul.jpg" class="d-block w-100">
+                <div class="carousel-caption top-0" 
+                style="height:fit-content; padding-top:300px;">
+                    <h5 style="font-size:150px; color: rgba(255, 255, 255, 0.7); font-weight: bold;">
+                    ISTANBUL</h5>
                 </div>
             </div>
             <div class="carousel-item">
-                <img src="images/dubai.jpg" class="d-block w-100" alt="...">
-                <div class="carousel-caption d-none d-md-block">
-                    <h5>Second slide label</h5>
-                    <p>Some representative placeholder content for the second slide.</p>
+                <img src="images/dubai.jpg" class="d-block w-100">
+                <div class="carousel-caption top-0" 
+                style="height:fit-content; padding-top:300px">
+                    <h5 style="font-size:150px; color: rgba(255, 255, 255, 0.7); font-weight: bold;">
+                    DUBAI</h5>
                 </div>
             </div>
             <div class="carousel-item">
-                <img src="images/switzerland.jpg" class="d-block w-100" alt="...">
-                <div class="carousel-caption d-none d-md-block">
-                    <h5>Third slide label</h5>
-                    <p>Some representative placeholder content for the third slide.</p>
+                <img src="images/italy.jpg" class="d-block w-100">
+                <div class="carousel-caption top-0" 
+                style="height:fit-content; padding-top:300px">
+                    <h5 style="font-size:150px; color: rgba(255, 255, 255, 0.7); font-weight: bold;">
+                    ITALY</h5>
                 </div>
             </div>
         </div>
