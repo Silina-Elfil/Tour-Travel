@@ -30,7 +30,7 @@
     $image = $_FILES["image"]["name"];
 
     // Insert into SQL
-    $img_new_name = rand() . $image;
+    $img_new_name = $image;
 
     move_uploaded_file(
       $_FILES["image"]["tmp_name"],
@@ -48,15 +48,15 @@
     }
   }
   ?>
-  <div class="modal fade modal-lg" id="addtrip" tabindex="-1" aria-labelledby="addtrip" aria-hidden="true">
-    <div class="modal-dialog">
+  <div class="modal fade modal-lg" id="addtrip" tabindex="-1" aria-labelledby="addtrip" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-scrollable">
       <div class="modal-content">
         <div class="modal-header">
           <h1 class="modal-title fs-5" id="addtrip">Add a Trip</h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" enctype="multipart/form-data">
+          <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" enctype="multipart/form-data" onsubmit="return isValid()">
             <div class="form-row">
               <div class="form-row">
                 <div class="col-lg-10">
@@ -145,6 +145,141 @@
       </div>
     </div>
   </div>
+
+  <script>
+    function isValid() {
+      var deplocation = document.getElementById('deplocation').value;
+      var destlocation = document.getElementById('destlocation').value;
+      var depday = document.getElementById('depday').value;
+      var arvlday = document.getElementById('arvlday').value;
+      var deptime = document.getElementById('deptime').value;
+      var arvltime = document.getElementById('arvltime').value;
+      var description = document.getElementById('description').value;
+      var price = document.getElementById('price').value;
+      var availability = document.getElementById('availability').value;
+      var image = document.getElementById('image').value;
+
+      if (deplocation.length === 0) {
+        setErrorClass('deplocation');
+        setError('deplocation', 'Departure location field is empty');
+        isValid = false;
+      } else {
+        removeErrorClass('deplocation');
+        removeError('deplocation');
+      }
+
+      if (destlocation.length === 0) {
+        setErrorClass('destlocation');
+        setError('destlocation', 'Destination location field is empty');
+        isValid = false;
+      } else {
+        removeErrorClass('destlocation');
+        removeError('destlocation');
+      }
+
+      if (depday.length === 0) {
+        setErrorClass('depday');
+        setError('depday', 'Departure day field is empty');
+        isValid = false;
+      } else {
+        removeErrorClass('depday');
+        removeError('depday');
+      }
+
+      if (depday.length === 0) {
+        setErrorClass('arvlday');
+        setError('arvlday', 'Arrival day field is empty');
+        isValid = false;
+      } else {
+        removeErrorClass('arvlday');
+        removeError('arvlday');
+      }
+
+      if (deptime.length === 0) {
+        setErrorClass('deptime');
+        setError('deptime', 'Departure time field is empty');
+        isValid = false;
+      } else {
+        removeErrorClass('deptime');
+        removeError('deptime');
+      }
+
+      if (depday.length === 0) {
+        setErrorClass('arvltime');
+        setError('arvtime', 'Arrival time field is empty');
+        isValid = false;
+      } else {
+        removeErrorClass('arvltime');
+        removeError('arvltime');
+      }
+
+      if (description.length === 0) {
+        setErrorClass('description');
+        setError('description', 'description field is empty');
+        isValid = false;
+      } else {
+        removeErrorClass('description');
+        removeError('description');
+      }
+
+      if (price.length === 0) {
+        setErrorClass('price');
+        setError('price', 'price field is empty');
+        isValid = false;
+      } else {
+        removeErrorClass('price');
+        removeError('price');
+      }
+
+      if (availability.length === 0) {
+        setErrorClass('availability');
+        setError('availability', 'availability field is empty');
+        isValid = false;
+      } else {
+        removeErrorClass('availability');
+        removeError('availability');
+      }
+
+      if (image.length === 0) {
+        setErrorClass('image');
+        setError('image', 'image field is empty');
+        isValid = false;
+      } else {
+        removeErrorClass('image');
+        removeError('image');
+      }
+
+      return isValid;
+    }
+
+
+
+    function setError(fieldId, errorMessage) {
+      document.getElementById(fieldId + 'Error').innerHTML = errorMessage;
+    }
+
+    function removeError(fieldId) {
+      document.getElementById(fieldId + 'Error').innerHTML = '';
+    }
+
+    function setErrorClass(fieldId) {
+      document.getElementById(fieldId).classList.add('is-invalid');
+    }
+
+    function removeErrorClass(fieldId) {
+      document.getElementById(fieldId).classList.remove('is-invalid');
+    }
+  </script>
+
+  <style>
+    .is-invalid {
+      border-color: #dc3545;
+    }
+
+    .text-danger {
+      color: #dc3545;
+    }
+  </style>
 
 </body>
 
