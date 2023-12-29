@@ -1,5 +1,5 @@
 <?php
-session_start();
+//session_start();
 $_SESSION[] = array(); // empty all sessions
 unset($_SESSION["signin_admin"]);
 unset($_SESSION["username_admin"]);

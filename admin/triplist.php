@@ -22,7 +22,6 @@
 
     echo '<div class="row row-cols-1 row-cols-lg-3 row-cols-md-2 mx-3">';
 
-
     while ($row = mysqli_fetch_array($result)) {
         echo '<div class = "col my-3">';
         echo '<div class = "card">';
@@ -88,35 +87,132 @@
         echo '<div class="text-end">';
 
         $id = $row['tripId'];
-        
+
         echo "
-        <a class='btn btn-secondary' href='edittrip.php?e=$id' role='button'>Edit</a>
+        <button type='button' class='btn btn-secondary' data-bs-toggle='modal' data-bs-target='#editModal$id'>
+        Edit</button> ";
+
+        echo "
         <button type='button' class='btn btn-danger' data-bs-toggle='modal' data-bs-target='#deleteModal$id'>
         Delete</button>
+
         ";
 
-        // Modal for each trip
-        echo "
-        <div class='modal fade' id='deleteModal$id' tabindex='-1' aria-labelledby='deleteModalLabel$id' aria-hidden='true'>
-            <div class='modal-dialog modal-dialog-centered'>
-                <div class='modal-content'>
-                    <div class='modal-header'>
-                        <h5 class='modal-title' id='deleteModalLabel$id'>Confirm Deletion</h5>
-                        <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
-                    </div>
-                    <div class='modal-body'>
-                    <div class='float-start'>
-                        Are you sure you want to delete this trip?
-                        </div>
-                    </div>
-                    <div class='modal-footer'>
-                        <button type='button' class='btn btn-secondary' data-bs-dismiss='modal'>Cancel</button>
-                        <a class='btn btn-danger' href='deletetrip.php?d=$id' role='button'>Delete</a>
-                    </div>
+         echo "
+        <div class='modal fade' id='editModal$id' tabindex='-1' aria-labelledby='editModalLabel$id' aria-hidden='true'>
+        <div class='modal-dialog modal-dialog-scrollable modal-lg'>
+            <div class='modal-content'>
+                <div class='modal-header'>
+                    <h5 class='modal-title' id='editModalLabel$id'>Edit the trip</h5>
+                    <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
+                </div>
+                <div class='modal-body'>
+                <form method='post' action='edittrip.php?e=$id' enctype='multipart/form-data' onsubmit='return isValid()'>
+                            <div class='form-row'>
+                                <div class='form-row'>
+                                    <div class='col-lg-10'>
+                                        <input type='text' class='form-control p-3' value='$row[departureLocation]' name='deplocation' id='edeplocation' oninput='removeErrorClass('deplocation')'>
+                                        <div id='deplocationError' class='text-danger' style='float: right;'></div>
+                                        <div class='my-2'></div>
+                                    </div>
+                                </div>
+                                <div class='form-row'>
+                                    <div class=' col-lg-10'>
+                                        <input type='text' class='form-control p-3' value='$row[destinationLocation]' name='destlocation' id='edestlocation' oninput='removeErrorClass('destlocation')'>
+                                        <div id='destlocationError' class='text-danger' style='float: right;'></div>
+                                        <div class='my-2'></div>
+                                    </div>
+                                </div>
+                                <div class='form-row'>
+                                    <div class='col-lg-10'>
+                                        <input type='date' class='form-control p-3' value='$row[departureDay]' name='depday' id='edepday' oninput='removeErrorClass('depday')'>
+                                        <div id='depdayError' class='text-danger' style='float: right;'></div>
+                                        <div class='my-2'></div>
+                                    </div>
+                                </div>
+                                <div class='form-row'>
+                                    <div class='col-lg-10'>
+                                        <input type='date' class='form-control p-3' value='$row[arrivalDay]' name='arvlday' id='earvlday' oninput='removeErrorClass('arvlday')'>
+                                        <div id='arvldayError' class='text-danger' style='float: right;'></div>
+                                        <div class='my-2'></div>
+                                    </div>
+                                </div>
+                                <div class='form-row'>
+                                    <div class='col-lg-10'>
+                                        <input type='time' class='form-control p-3' value='$row[departureTime]' name='deptime' id='edeptime' oninput='removeErrorClass('deptime')'>
+                                        <div id='deptimeError' class='text-danger' style='float: right;'></div>
+                                        <div class='my-2'></div>
+                                    </div>
+                                </div>
+                                <div class='form-row'>
+                                    <div class='col-lg-10'>
+                                        <input type='time' class='form-control p-3' value='$row[arrivalTime]' name='arvltime' id='earvltime' oninput='removeErrorClass('arvltime')'>
+                                        <div id='arvltimeError' class='text-danger' style='float: right;'></div>
+                                        <div class='my-2'></div>
+                                    </div>
+                                </div>
+                                <div class='form-row'>
+                                    <div class='col-lg-10'>
+                                        <input type='text' class='form-control p-3' value='$row[description]' name='description' id='edescription' oninput='removeErrorClass('description')'>
+                                        <div id='descriptionError' class='text-danger' style='float: right;'></div>
+                                        <div class='my-2'></div>
+                                    </div>
+                                </div>
+                                <div class='form-row'>
+                                    <div class='col-lg-10'>
+                                        <div class='input-group'>
+                                            <input type='number' step='0.01' class='form-control p-3' value='$row[price]' name='price' id='eprice' oninput='removeErrorClass('price')'>
+                                            <div class='input-group-append'>
+                                                <span class='input-group-text p-3'>$</span>
+                                            </div>
+                                        </div>
+                                        <div id='priceError' class='text-danger' style='float: right;'></div>
+                                        <div class='my-2'></div>
+                                    </div>
+                                </div>
+
+                                <div class='form-row'>
+                                    <div class='col-lg-10'>
+                                        <input type='number' class='form-control p-3' value='$row[availability]' name='availability' id='eavailability' oninput='removeErrorClass('availability')'>
+                                        <div id='availabilityError' class='text-danger' style='float: right;'></div>
+                                        <div class='my-2'></div>
+                                    </div>
+                                </div>
+                            </div>
+                   </div>
+                   <div class='modal-footer'>
+                   <button type='button' class='btn btn-secondary' data-bs-dismiss='modal'>Cancel</button>
+                   <button type='submit' class='btn btn-success'>Save Changes</button>
+               </div>
+                    </form>
                 </div>
             </div>
         </div>
+    
         ";
+
+
+        echo "
+            <div class='modal fade' id='deleteModal$id' tabindex='-1' aria-labelledby='deleteModalLabel$id' aria-hidden='true'>
+                <div class='modal-dialog modal-dialog-centered'>
+                    <div class='modal-content'>
+                        <div class='modal-header'>
+                            <h5 class='modal-title' id='deleteModalLabel$id'>Confirm Deletion</h5>
+                            <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
+                        </div>
+                        <div class='modal-body'>
+                            <div class='float-start'>
+                                Are you sure you want to delete this trip?
+                            </div>
+                        </div>
+                        <div class='modal-footer'>
+                            <button type='button' class='btn btn-secondary' data-bs-dismiss='modal'>Cancel</button>
+                            <a class='btn btn-danger' href='deletetrip.php?d=$id'>Delete</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            ";
 
         echo '</div> </div>';
         echo '</div> </div>';
