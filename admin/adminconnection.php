@@ -1,7 +1,10 @@
 <?php
-session_start();
 
-require("../connection.php");
+
+    session_start();
+
+
+require_once("../connection.php");
 
 //check if there is a signed in user and if role is 1
 if (!isset($_SESSION["signin_admin"]) || $_SESSION["signin_admin"] != 1)

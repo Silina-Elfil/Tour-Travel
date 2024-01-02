@@ -31,7 +31,7 @@
                 $result3 = mysqli_query($con, $query3);
 
                 if ($result3) {
-                    header("Location: home.php");
+                    header("Location: signin.php");
                     exit();
                 }
             } else{

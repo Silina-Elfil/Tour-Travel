@@ -10,7 +10,7 @@
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 
-    <title>Document</title>
+    <title>booked trips</title>
 </head>
 
 <body>
@@ -38,53 +38,82 @@
         </div>
     </nav>
 
-    <div style="margin: 60px"></div>
-
-    <section class="trip-list mt-5">
-        <?php
-        include("triplist.php");
-        ?>
-    </section>
+    <div style="margin: 40px">.</div>
 
     <?php
-    if (isset($_GET['success'])) {
-        $success = $_GET['success'];
-        if ($success == "true") {
-            // Display success toast
-            echo '<div class="toast align-items-center text-white bg-success border-0 position-fixed bottom-0 end-0 m-3" role="alert" aria-live="assertive" aria-atomic="true">
-                <div class="d-flex">
-                    <div class="toast-body">
-                        The trip was booked successfully.
-                    </div>
-                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
-                </div>
-              </div>';
-        } elseif ($success == "false") {
-            // Display error toast
-            echo '<div class="toast align-items-center text-white bg-danger border-0 position-fixed bottom-0 end-0 m-3" role="alert" aria-live="assertive" aria-atomic="true">
-                <div class="d-flex">
-                    <div class="toast-body">
-                        Unable to book the trip. Please try again.
-                    </div>
-                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
-                </div>
-              </div>';
-        }
+    // Start session
+    session_start();
+    
+    // Include your database connection
+    require("connection.php");
+    
+    // Check if user is logged in
+    if (!isset($_SESSION["userid"])) {
+        // Redirect to login page or handle as needed
+        header("Location: index.php");
+        exit();
+    }
+    
+    // Get the logged-in user's ID
+    $userId = $_SESSION["userid"];
+    
+    // Fetch booked trips for the logged-in user
+    $sql = "SELECT u.username, t.departureLocation, t.destinationLocation, t.departureDay, t.arrivalDay, t.departureTime, t.arrivalTime, t.price, t.description, b.date
+            FROM bookedtrips b
+            JOIN users u ON b.userId = u.userId
+            JOIN trips t ON b.tripId = t.tripId
+            WHERE b.userId = '$userId'";
+    
+    $result = mysqli_query($con, $sql);
+    
+    if (!$result) {
+        // Handle the query error as needed
+        die("Error: " . mysqli_error($con));
+    }
+    
+    // Display results in a table
+    echo "<table>";
+    echo "<tr><th>Username</th><th>Departure Location</th><th>Destination Location</th><th>Departure Day</th><th>Arrival Day</th><th>Departure Time</th><th>Arrival Time</th><th>Price</th><th>Description</th><th>Date</th></tr>";
+    
+    while ($row = mysqli_fetch_assoc($result)) {
+        echo "<tr>";
+        echo "<td>" . $row['username'] . "</td>";
+        echo "<td>" . $row['departureLocation'] . "</td>";
+        echo "<td>" . $row['destinationLocation'] . "</td>";
+        echo "<td>" . $row['departureDay'] . "</td>";
+        echo "<td>" . $row['arrivalDay'] . "</td>";
+        echo "<td>" . $row['departureTime'] . "</td>";
+        echo "<td>" . $row['arrivalTime'] . "</td>";
+        echo "<td>" . $row['price'] . "</td>";
+        echo "<td>" . $row['description'] . "</td>";
+        echo "<td>" . $row['date'] . "</td>";
+        echo "</tr>";
+    }
+    
+    echo "</table>";
+
+    echo '<style>
+    table {
+        width: 98%;
+        margin: 20px auto;
+        border-collapse: collapse;
     }
 
+    th, td {
+        border: 1px solid #dddddd;
+        padding: 8px;
+        text-align: left;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+</style>';
+    
+    // Close connection
+    mysqli_close($con);
     ?>
+    
 
-    <script>
-        const toastTrigger = document.getElementById('liveToastBtn')
-        const toastLiveExample = document.getElementById('liveToast')
-
-        if (toastTrigger) {
-            const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
-            toastTrigger.addEventListener('click', () => {
-                toastBootstrap.show()
-            })
-        }
-    </script>
 </body>
-
 </html>

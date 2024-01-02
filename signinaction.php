@@ -1,7 +1,7 @@
 <?php
 
-session_start(); // Start the session
-require("connection.php");
+session_start();
+include("connection.php");
 
 // if (isset($_POST['signin'])) {
 $username = mysqli_real_escape_string($con, $_POST['username']);
@@ -27,14 +27,14 @@ if (mysqli_num_rows($result) == 0) {
 
     if ($pass) {
         if ($row['roleId'] == 1) {
-            $_SESSION["signin_admin"] = 1;
+            $_SESSION["signin_admin"] = 1;  
             $_SESSION["username_admin"] = $username;
-            $_SESSION["userid_admin"] = $row["id"];
+            $_SESSION["userid_admin"] = $row["userId"];
             header("Location: admin\index.php");
         } else {
             $_SESSION["signin"] = 1;
             $_SESSION["username"] = $username;
-            $_SESSION["userid"] = $row["Id"];
+            $_SESSION["userid"] = $row["userId"];
             header("Location: home.php");
         }
     } else {

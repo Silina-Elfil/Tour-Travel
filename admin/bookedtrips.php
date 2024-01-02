@@ -13,8 +13,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <!-- Toastr JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-
-    <title>Admin dashboard</title>
+    <title>Booked trips</title>
 </head>
 
 <body>
@@ -37,35 +36,52 @@
             </div>
         </div>
     </nav>
-    <section class="add-trip mt-5 mx-5">
-        <div class="d-block align-items-center">
-            <div class="row w-100 fs-4 justify-content-start">
-                <div class="col p-0 mt-5">
-                    <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#addtrip">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
-                            <path fill-rule="evenodd" d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2" />
-                        </svg>
-                        Add a Trip
-                    </button>
-                    <a href="bookedtrips.php" class="btn btn-primary btn-lg mx-3">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-view-list" viewBox="0 0 16 16">
-                            <path d="M3 4.5h10a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2m0 1a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1v-3a1 1 0 0 0-1-1zM1 2a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 0 1h-13A.5.5 0 0 1 1 2m0 12a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 0 1h-13A.5.5 0 0 1 1 14" />
-                        </svg>
-                        View Booked Trips
-                    </a>
-                    <?php
-                    include("addtrip.php");
-                    ?>
-                </div>
-            </div>
-        </div>
-    </section>
-    <section class="trip-list mt-5">
-        <?php
-        include("triplist.php");
-        ?>
-    </section>
 
+    <div style="margin: 30px">.</div>
+
+
+
+    <div class="mx-5" style="margin-top: 30px;">
+        Search by user name <input type="text" id="txtSearch" /> <br />
+    </div>
+    
+    <div id="result">
+
+        <script type="text/javascript">
+            // bind on keyup event to the textbox search
+            $(document).ready(function() { // on page load
+                $('#txtSearch').keyup(function() {
+                    $.ajax({
+                        type: "GET",
+                        url: "search.php",
+                        data: {
+                            'name': this.value
+                        },
+                        success: function(response) {
+                            // returned result
+                            $('#result').html(response);
+                        }
+                    });
+                });
+            });
+        </script>
+
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+            }
+
+            .search-container {
+                margin: 30px 5%;
+            }
+
+            #txtSearch {
+                padding: 8px;
+                width: 200px;
+                border: 1px solid #ccc;
+                border-radius: 20px;
+            }
+        </style>
 </body>
 
 </html>
